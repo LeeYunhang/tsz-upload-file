@@ -2,11 +2,21 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import _UploadIcon from 'react-icons/lib/md/file-upload'
+import { observer } from 'mobx-react'
 
-import { normalColor, normal } from '../color.js'
+import { normalColor, normal } from '../../color.js'
+import state from '../../stores'
+import ImageUrlView from './ImageUrlView'
+import Notice from '../Notice'
+import './index.css'
 
 let Div = styled.div`
   margin: 2em 0;
+`
+
+let List = styled.ul`
+  width: 100%;
+  list-style-type: none;
 `
 
 let H1 = styled.h1`
@@ -18,7 +28,7 @@ let H1 = styled.h1`
   &::after {
     padding-left: 2em;
     font-size: .5em;
-    content: '5 MB max per file. 10 files max per request.';
+    content: '5 MB max per file.';
   }
 `
 
@@ -27,6 +37,7 @@ let UploadImageArea = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   border: dashed ${normal} 2px;
   border-radius: 4px;
 `
@@ -34,7 +45,7 @@ let UploadImageArea = styled.div`
 let Main = styled.main`
   padding: 0 20%;
   flex-basis: 100%;
-  height: 170px;
+  overflow-y: auto;
 `
 
 let P = styled.p`
@@ -50,9 +61,26 @@ let UploadIcon = styled(_UploadIcon)`
   ${normalColor}
 `
 
-class Home extends Component {
+const UrlList = observer(function ({ uploadedFiles }) {
+  return <List>
+    {uploadedFiles.map((result, index) => (
+      <li 
+        key={result.date} 
+        style={{ margin: '1em 0' }}
+      >
+        <ImageUrlView {...result} />
+      </li>
+    ))}
+  </List>
+})
+
+const Home = observer(class Home extends Component {
+
+  state = { urlViews: null, selectedFiles: false }
+  filesInput = document.createElement('input')
 
   componentDidMount() {
+    this.filesInput.setAttribute('type', 'file')
   }
 
   componentWillUnmount() {
@@ -75,16 +103,22 @@ class Home extends Component {
 
   dropHandler = async (event) => {
     event.preventDefault()
-    
     let files = event.dataTransfer.files
-    console.dir(files)
-
-    let response = await fetch('https://sm.ms/api/upload', {
-      smfile: files
-    })
-
-    console.dir(response)
+ 
     this.dragLeaveHandler()
+    if (event.dataTransfer.files.length && files[0].type.indexOf('image') !== -1) {
+      await state.uploadFiles(files)
+    }
+  }
+
+  clicHandler = async () => {
+    if (!this.state.selectedFiles) {
+      this.filesInput.click()
+      this.setState({ selectedFiles: true })
+    } else {
+      await state.uploadFiles(this.filesInput.files)
+      this.setState({ selectedFiles: false })
+    }
   }
 
   render() {
@@ -93,7 +127,8 @@ class Home extends Component {
         <H1>Image Upload</H1>
       </Div>
       <Div>
-        <UploadImageArea 
+        <UploadImageArea
+          onClick={this.clicHandler} 
           onDragEnter={this.dragEnterHandler}
           onDragLeave={this.dragLeaveHandler}
           onDragOver={this.dragOverHandler}
@@ -101,11 +136,13 @@ class Home extends Component {
           ref={uploadImage => this.uploadImage = uploadImage}
           >
           <UploadIcon />
-          <P>Drag and drop here</P>
+          <P>{this.state.selectedFiles? 'Click to upload images' : 'Drag and drop here'}</P>
         </UploadImageArea>
+        <UrlList uploadedFiles={state.uploadedFiles}/>
+        <Notice {...state}/>
       </Div>
     </Main>
   }
-}
+})
 
 export default Home

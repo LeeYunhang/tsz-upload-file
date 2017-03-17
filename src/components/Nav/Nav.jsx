@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { Link, Switch  } from 'react-router-dom'
 
 import { normalColor } from '../../color.js'
+
 let Header = styled.header`
   background-color: #fff;
   width: 100%;
@@ -48,12 +50,13 @@ let List = styled.ul`
 
 class Nav extends Component {
   render() {
+    Switch
     return <Header>
       <Brand>TSZ</Brand>
       <List>
-        <li><a href="void(0)">Home</a></li>
-        <li><a href="void(0)">History</a></li>
-        <li><a href="void(0)">About</a></li>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/history">History</Link></li>
+        <li><Link to="/about">About</Link></li>
       </List>
     </Header>
   }

@@ -2389,7 +2389,7 @@ he@1.1.x:
   version "1.1.1"
   resolved "http://r.cnpmjs.org/he/download/he-1.1.1.tgz#93410fd21b009735151f8868c2f271f3427e23fd"
 
-history@^4.6.0:
+history@^4.5.1, history@^4.6.0:
   version "4.6.0"
   resolved "http://r.cnpmjs.org/history/download/history-4.6.0.tgz#2e09f7b173333040044c9fede373ad29bc2e2186"
   dependencies:
@@ -4276,6 +4276,13 @@ react-icons@^2.2.3:
   resolved "http://r.cnpmjs.org/react-icons/download/react-icons-2.2.3.tgz#3b4847923065ecb09f8ba7f7e422112de0195196"
   dependencies:
     react-icon-base "2.0.4"
+
+react-router-dom@^4.0.0:
+  version "4.0.0"
+  resolved "http://r.cnpmjs.org/react-router-dom/download/react-router-dom-4.0.0.tgz#4fa4418e14b8cfc5bcc0bdea0c4083fb8c2aef10"
+  dependencies:
+    history "^4.5.1"
+    react-router "^4.0.0"
 
 react-router@^4.0.0:
   version "4.0.0"

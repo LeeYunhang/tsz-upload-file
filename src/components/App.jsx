@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 import Nav from './Nav/Nav'
 import Footer from './Footer'
@@ -15,13 +16,15 @@ let Div = styled.div`
 class App extends Component {
   render() {
     return (
-      <Div className="app">
-        <Nav />
-        <Body />
-        <Footer />
-      </Div>
+      <Router>
+        <Div className="app">
+          <Nav />
+          <Body />
+          <Footer />
+        </Div>
+      </Router>
     );
   }
 }
 
-export default App;
+export default App
