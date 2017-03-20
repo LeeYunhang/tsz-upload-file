@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 import styled from 'styled-components'
 import { Link, Switch  } from 'react-router-dom'
 
@@ -49,8 +49,11 @@ let List = styled.ul`
 `
 
 class Nav extends Component {
+  static propTypes = {
+    // location: PropTypes.object.isRequired
+  }
+
   render() {
-    Switch
     return <Header>
       <Brand>TSZ</Brand>
       <List>
