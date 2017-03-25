@@ -2,15 +2,16 @@ import React, { Component, PropTypes } from 'react'
 import styled from 'styled-components'
 import { Link, Switch  } from 'react-router-dom'
 
-import { normalColor } from '../../color.js'
+import { PRIMARY } from '../../color.js'
 
 let Header = styled.header`
   background-color: #fff;
   width: 100%;
+  box-sizing: border-box;
   height: 60px;
   box-shadow: 0 1px 3px 0 rgba(0,34,77,.05);
   padding: 0 20%;
-  ${normalColor}
+  color: ${PRIMARY};
 `
 
 let Brand = styled.h1`
@@ -43,7 +44,7 @@ let List = styled.ul`
       align-self: center;
       cursor: pointer;
       font-size: 1.2em;
-      ${normalColor}
+      color: ${PRIMARY};
     }
   }
 `

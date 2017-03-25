@@ -1,0 +1,1 @@
+export { intersection, union, difference } from './set-operations.js'

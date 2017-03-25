@@ -4,10 +4,10 @@ import { observer } from 'mobx-react'
 import _CloseIcon from 'react-icons/lib/md/close'
 
 
-import { normalColor } from '../color.js'
+import { PRIMARY } from '../color.js'
 
 let CloseIcon = styled(_CloseIcon)`
-  ${normalColor}
+  color: ${PRIMARY};
   font-size: 1.5em;
   align-self: center;
   cursor: pointer;
@@ -35,7 +35,7 @@ let Div = styled.div`
 
 let P = styled.p`
   align-self: center;
-  ${normalColor}
+  color: ${PRIMARY};
 `
 
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { normalColor } from '../color.js'
+import { PRIMARY } from '../color.js'
 
 let Div = styled.div`
   display: flex;
@@ -12,12 +12,12 @@ let Div = styled.div`
 
 let H2 = styled.h2`
   display: inline-block;
-  ${normalColor}
+  color: ${PRIMARY};
   align-self: center;
 `
 
 let Link = styled.a`
-  ${normalColor}
+  color: ${PRIMARY}
   align-self: center;
   font-size: 1.2em; 
   text-decoration: none;

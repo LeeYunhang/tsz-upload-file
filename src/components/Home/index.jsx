@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import _UploadIcon from 'react-icons/lib/md/file-upload'
 import { observer } from 'mobx-react'
 
-import { normalColor, normal } from '../../color.js'
+import { PRIMARY } from '../../color.js'
 import state from '../../stores'
 import ImageUrlView from './ImageUrlView'
 import Notice from '../Notice'
@@ -23,7 +23,7 @@ let H1 = styled.h1`
   font-size: 2em;
   padding: .4em 0;
   border-bottom: lightgray 1px solid; 
-  ${normalColor}
+  color: ${PRIMARY};
   
   &::after {
     padding-left: 2em;
@@ -38,18 +38,17 @@ let UploadImageArea = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border: dashed ${normal} 2px;
+  border: dashed ${PRIMARY} 2px;
   border-radius: 4px;
 `
 
 let Main = styled.main`
   padding: 0 20%;
   flex-basis: 100%;
-  overflow-y: auto;
 `
 
 let P = styled.p`
-  ${normalColor}
+  color: ${PRIMARY};
   margin: 0 0 2em;
   font-size: 1.5em;
 `
@@ -58,14 +57,14 @@ let UploadIcon = styled(_UploadIcon)`
   width: 4em;
   height: 4em;
   margin: 5em 0 .5em;
-  ${normalColor}
+  color: ${PRIMARY};
 `
 
 const UrlList = observer(function ({ uploadedFiles }) {
   return <List>
     {uploadedFiles.map((result, index) => (
       <li 
-        key={result.date} 
+        key={result.timestamp + result.url} 
         style={{ margin: '1em 0' }}
       >
         <ImageUrlView {...result} />

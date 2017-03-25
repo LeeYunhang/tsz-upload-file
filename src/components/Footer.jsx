@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { normalColor } from '../color.js'
+import { PRIMARY } from '../color.js'
 
 let Footer = styled.footer`
   display: flex;
@@ -13,7 +13,7 @@ let Footer = styled.footer`
 let P = styled.p`
   font-size: 1.2em;
   align-self: center;
-  ${normalColor}
+  color: ${PRIMARY};
 `
 
 

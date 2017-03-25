@@ -14,7 +14,7 @@ let Div = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  height: inherit;
 `
 
 class App extends Component {
