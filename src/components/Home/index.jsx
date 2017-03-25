@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import _UploadIcon from 'react-icons/lib/md/file-upload'
 import { observer } from 'mobx-react'
 
-import { PRIMARY } from '../../color.js'
+import { PRIMARY } from '../../utils/color.js'
 import state from '../../stores'
 import ImageUrlView from './ImageUrlView'
 import Notice from '../Notice'

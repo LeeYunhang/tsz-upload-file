@@ -1,5 +1,4 @@
 import { observable, computed, action } from 'mobx'
-
 import { difference, union, intersection } from '../utils'
 
 class State {
@@ -47,7 +46,7 @@ class State {
       }
       
       this.storedFiles.push(...tmpFiles)
-      this.storageFiles()
+      this.dumpFiles()
     } catch (e) {
       this.error.set(true)
     } finally {
@@ -68,9 +67,12 @@ class State {
     })
   }
 
-  storageFiles() {
+  dumpFiles() {
     localStorage.setItem('storedFiles', JSON.stringify(this.storedFiles))
-    // localStorage.setItem('allTags', JSON.stringify(this.allTags))
+  }
+
+  dumpTags() {
+    localStorage.setItem('allTags', JSON.stringify(this.allTags))
   }
 
   deleteFiles(urls) {
@@ -83,11 +85,24 @@ class State {
     })
   }
 
+  addTags(tags) {
+    tags.forEach(tag => {
+      if (!this.allTags.includes(tag)) {
+        this.allTags.push(tag)
+      }
+    })
+    this.dumpTags()
+  }
+
   updateFile(url, newFile) {
+    if (newFile.tags) {
+      this.addTags(newFile.tags)
+    }
+
     for (let i = 0, length = this.storedFiles.length; i < length; ++i) {
       if (this.storedFiles[i].url === url) {
         this.storedFiles[i] = Object.assign({}, this.storedFiles[i], newFile)
-        this.storageFiles()
+        this.dumpFiles()
         break
       }
     }

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import styled from 'styled-components'
 import { Link, Switch  } from 'react-router-dom'
 
-import { PRIMARY } from '../../color.js'
+import { PRIMARY } from '../../utils/color.js'
 
 let Header = styled.header`
   background-color: #fff;

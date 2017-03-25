@@ -28,7 +28,7 @@ export class Gallery extends Component {
 
   static defaultProps = {
     cols: 3,
-    margin: 4,
+    margin: 2,
     radius: 0,
     isPointer: false
   }

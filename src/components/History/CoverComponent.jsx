@@ -7,7 +7,8 @@ import { WithContext as Tags } from 'react-tag-input'
 import { observer } from 'mobx-react'
 
 import state from '../../stores'
-import { PRIMARY } from '../../color.js'
+import { PRIMARY } from '../../utils/color.js'
+import { clearSuffix } from '../../utils'
 import './index.css'
 
 let Div = styled.div`
@@ -90,6 +91,7 @@ let UrlListWrapper = styled.div`
   box-sizing: border-box;
 `
 
+
 function UrlItem({ urlType, content, timestamp, onCopy }) {
   return <UrlItemWrapper>
       <H5>{urlType}</H5>
@@ -132,24 +134,30 @@ export default observer(class CoverComponent extends Component {
     state.updateFile(this.props.url, { tags })
   }
 
+  handleDelete = i => {
+
+    this.props.tags.splice(i, 1)
+    state.dumpFiles()
+  }
+
   render() {
     let { photoname, width, height, url, timestamp, tags = [] } = this.props
-    console.log(this.props)
-    let tmp = photoname.split('.')
+    let suggestions = state.allTags
+      .filter(tag => !tags.includes(tag))
 
-    tmp.pop()
-    photoname = tmp.join('.')
+    photoname = clearSuffix(photoname)
     tags = tags.map((tag, key) => ({ key, 'text': tag }))
     return <Div>
       <PhotoNameWrapper>
         <PhotoName target="_blank" rel="noopener" href={url}>{photoname}</PhotoName>
-        <EditIcon />
       </PhotoNameWrapper>
       <CloseIcon onClick={this.deletePhotoHandler} />
       <Tags
-        suggestions={[]}
+        suggestions={suggestions}
         tags={tags}
+        autocomplete
         handleAddition={this.handleAddition}
+        handleDelete={this.handleDelete}
       />
       <UrlList onCopy={this.copyUrlHandler} url={url} timestamp={timestamp} />
     </Div>

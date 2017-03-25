@@ -3,6 +3,9 @@ import styled from 'styled-components'
 
 let Img = styled.img`
   width: 100%;
+  margin: ${props => props.margin}px;
+  margin-bottom: ${props => props.margin - 4}px;
+  margin-top: 0;
 `
 
 let ImageWrapper = styled.div`
@@ -10,10 +13,8 @@ let ImageWrapper = styled.div`
   position: relative;
   vertical-align: top;
   width: 100%;
-  margin: ${props => props.margin}px;
-
+  height: auto;
   box-sizing: border-box;
-  overflow: hidden;
   cursor: ${props => props.isPointer? 'pointer' : null}
 `
 
@@ -48,7 +49,6 @@ export default class Image extends Component {
 
   render() {
     return <ImageWrapper 
-      margin={this.props.margin}
       isPointer={this.props.isPointer}
       style={{borderRadius: this.props.radius + 'px'}}
     >

@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 
 import Nav from './Nav/Nav'
 import Footer from './Footer'
-// import Body from './Body'
 import History from './History'
 import Home from './Home'
 import About from './About'

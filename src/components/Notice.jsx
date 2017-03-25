@@ -4,7 +4,7 @@ import { observer } from 'mobx-react'
 import _CloseIcon from 'react-icons/lib/md/close'
 
 
-import { PRIMARY } from '../color.js'
+import { PRIMARY } from '../utils/color.js'
 
 let CloseIcon = styled(_CloseIcon)`
   color: ${PRIMARY};
