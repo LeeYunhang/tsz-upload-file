@@ -157,7 +157,7 @@ export default observer(class CoverComponent extends Component {
       </PhotoNameWrapper>
       <CloseIcon onClick={this.deletePhotoHandler} />
       <Tags
-        placeholder="enter tag to filter phtots"
+        placeholder="enter tag to filter photos"
         suggestions={suggestions}
         tags={tags}
         autocomplete

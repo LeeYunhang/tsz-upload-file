@@ -3,13 +3,17 @@ import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import _UploadIcon from 'react-icons/lib/md/file-upload'
 import { observer } from 'mobx-react'
+import CloseIcon from 'react-icons/lib/md/close'
 
 import { PRIMARY } from '../../utils/color.js'
 import state from '../../stores'
 import ImageUrlView from './ImageUrlView'
-// import Notice from '../Notice'
 import Notice from '../Notice/index'
 import './index.css'
+import { INFO, ERROR } from '../../utils'
+
+let stopUploading = () => state.isUploading.set(false)
+let handleError = () => void(stopUploading()) || state.uploadingError.set(false)
 
 let Div = styled.div`
   margin: 2em 0;
@@ -121,6 +125,17 @@ const Home = observer(class Home extends Component {
     }
   }
 
+  renderNotice = () => {
+    let show = state.isUploading.get() || state.uploadingError.get()
+    let text = state.uploadingError.get()? 'uploading failed!' 
+      : `uploaded: ${state.uploadedFilesCount.get() || 0} 
+        remain: ${state.remainFilesCount.get() || 0}`
+    let status = state.uploadingError.get()? ERROR : INFO
+    let icon = <CloseIcon onClick={state.uploadingError.get()? handleError : stopUploading} />
+
+    return <Notice status={status} show={show} text={text} icon={icon} />
+  }
+
   render() {
     return <Main>
       <Div>
@@ -139,8 +154,8 @@ const Home = observer(class Home extends Component {
           <P>{this.state.selectedFiles? 'Click to upload images' : 'Drag and drop here'}</P>
         </UploadImageArea>
         <UrlList uploadedFiles={state.uploadedFiles}/>
-        <Notice  {...state}/>
       </Div>
+      {this.renderNotice()}
     </Main>
   }
 })

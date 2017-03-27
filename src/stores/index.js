@@ -2,8 +2,10 @@ import { observable, computed, action } from 'mobx'
 import { difference, union, intersection } from '../utils'
 
 class State {
+  // kind of errors
+  uploadingError = observable(false)
+
   isUploading = observable(false)
-  error = observable(false)
   remainFilesCount = observable(0)
   uploadedFiles = observable([])
   allTags = observable(JSON.parse(localStorage.getItem('allTags')) || [])
@@ -36,7 +38,10 @@ class State {
         let res = await fetch('https://sm.ms/api/upload', { method: 'POST', body: formData })
         let json = await res.json()
         
-        if (this.error.get() || res.status !== 200 || json.code !== 'success') { 
+        if (!this.isUploading.get()) {
+          return
+        }
+        if (res.status !== 200 || json.code !== 'success') { 
           throw new Error('upload failed!') 
         }
 
@@ -57,10 +62,9 @@ class State {
       
       this.addFiles(tmpFiles)
     } catch (e) {
-      this.error.set(true)
+      this.uploadingError.set(true)
     } finally {
       this.isUploading.set(false)
-      this.error.set(false)
     }
   })
 

@@ -45,7 +45,8 @@ const Notice = observer(class Notice extends Component {
 
   static propTypes = {
     show: PropTypes.bool,
-    icon: PropTypes.element
+    icon: PropTypes.element,
+    text: PropTypes.string
   }
 
   static defaultProps = {
@@ -56,20 +57,19 @@ const Notice = observer(class Notice extends Component {
 
   render() {
     let propsToDiv = {
-      show: true,
+      show: this.props.show,
       status: this.props.status
     }
     let { uploadedFilesCount, remainFilesCount } = state
-    let icon = this.props.icon
+    let { icon, text } = this.props
     
     icon = addStyleForElement(icon, { 
       cursor: 'pointer',
       fontSize: '1.2em'
     })
-    return <Div id="haha"  {...propsToDiv}>
+    return <Div {...propsToDiv}>
       <p>
-        uploaded: {state.uploadedFilesCount.get() || 0} 
-        remain: {state.remainFilesCount.get() || 0}
+        {text}
       </p>
       {icon}
     </Div>
