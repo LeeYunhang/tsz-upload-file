@@ -6,7 +6,7 @@ export function union(a, b) {
 }
 
 export function intersection(a, b) {
-  return a.filter(v => b.contains(v))
+  return a.filter(v => b.includes(v))
 }
 
 export function difference(a = [], b = []) {

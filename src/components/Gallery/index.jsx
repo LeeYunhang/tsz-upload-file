@@ -7,6 +7,7 @@ export { default as CoverComponent } from './CoverComponent'
 let Div = styled.div`
   column-count: ${props => props.cols};
   column-gap: 0;
+  column-fill: balance;
 `
 
 export class Gallery extends Component {
@@ -47,7 +48,7 @@ export class Gallery extends Component {
       return row.map(photo => {
         let widthPercent = Math.floor(1/cols * 100)
 
-        return <Image {...photo} key={photo.url} 
+        return <Image {...photo}
           {...{margin, onClick, coverComponent, radius, isPointer}}
         />
       })

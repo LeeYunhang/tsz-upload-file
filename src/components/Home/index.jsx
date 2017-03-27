@@ -7,7 +7,8 @@ import { observer } from 'mobx-react'
 import { PRIMARY } from '../../utils/color.js'
 import state from '../../stores'
 import ImageUrlView from './ImageUrlView'
-import Notice from '../Notice'
+// import Notice from '../Notice'
+import Notice from '../Notice/index'
 import './index.css'
 
 let Div = styled.div`
@@ -138,7 +139,7 @@ const Home = observer(class Home extends Component {
           <P>{this.state.selectedFiles? 'Click to upload images' : 'Drag and drop here'}</P>
         </UploadImageArea>
         <UrlList uploadedFiles={state.uploadedFiles}/>
-        <Notice {...state}/>
+        <Notice  {...state}/>
       </Div>
     </Main>
   }

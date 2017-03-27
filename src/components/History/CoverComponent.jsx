@@ -9,7 +9,6 @@ import { observer } from 'mobx-react'
 import state from '../../stores'
 import { PRIMARY } from '../../utils/color.js'
 import { clearSuffix } from '../../utils'
-import './index.css'
 
 let Div = styled.div`
   display: flex;
@@ -120,7 +119,9 @@ export default observer(class CoverComponent extends Component {
     timestamp: PropTypes.number.isRequired,
   }
 
-  deletePhotoHandler = () => state.deleteFiles([this.props.url])
+  deletePhotoHandler = () => {
+    state.deleteFiles([this.props.url])
+  }
 
   copyUrlHandler = event => {
     event.nativeEvent.target.previousSibling.select()
@@ -129,21 +130,24 @@ export default observer(class CoverComponent extends Component {
 
   handleAddition = tag => {
     let tags = this.props.tags
-
-    tags.push(tag)
-    state.updateFile(this.props.url, { tags })
+  
+    if (!tags.includes(tag)) {
+      tags.push(tag)
+      state.updateFile(this.props.url, { tags })
+    }
   }
 
   handleDelete = i => {
-
     this.props.tags.splice(i, 1)
-    state.dumpFiles()
+    state.updateFile(this.props.url, {
+      tags: this.props.tags.filter((v, index) => index !== i)
+    })
   }
 
   render() {
     let { photoname, width, height, url, timestamp, tags = [] } = this.props
-    let suggestions = state.allTags
-      .filter(tag => !tags.includes(tag))
+    let suggestions = state.allTags.filter(tag => !tags.includes(tag))
+    let a = state.storedFiles
 
     photoname = clearSuffix(photoname)
     tags = tags.map((tag, key) => ({ key, 'text': tag }))
@@ -153,6 +157,7 @@ export default observer(class CoverComponent extends Component {
       </PhotoNameWrapper>
       <CloseIcon onClick={this.deletePhotoHandler} />
       <Tags
+        placeholder="enter tag to filter phtots"
         suggestions={suggestions}
         tags={tags}
         autocomplete

@@ -50,9 +50,6 @@ let List = styled.ul`
 `
 
 class Nav extends Component {
-  static propTypes = {
-    // location: PropTypes.object.isRequired
-  }
 
   render() {
     return <Header>

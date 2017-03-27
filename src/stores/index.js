@@ -7,7 +7,17 @@ class State {
   remainFilesCount = observable(0)
   uploadedFiles = observable([])
   allTags = observable(JSON.parse(localStorage.getItem('allTags')) || [])
+  searchTags = observable(JSON.parse(localStorage.getItem('searchTags')) || [])
   storedFiles = observable(JSON.parse(localStorage.getItem('storedFiles')) || [])
+
+  static dumpObj(key, value) {
+    localStorage.setItem(key, JSON.stringify(value))
+  }
+
+  constructor() {
+    this.updateTags()
+    this.dumpTags()
+  }
 
   uploadFiles = action(async (files) => {
     let tmpFiles = []
@@ -45,8 +55,7 @@ class State {
         this.remainFilesCount.set(files.length)
       }
       
-      this.storedFiles.push(...tmpFiles)
-      this.dumpFiles()
+      this.addFiles(tmpFiles)
     } catch (e) {
       this.error.set(true)
     } finally {
@@ -57,22 +66,29 @@ class State {
 
   uploadedFilesCount = computed(() => this.uploadedFiles.length)
 
-  addTags(tags) {
-    this.allTags.forEach(tag => this.addTags.push(tag))
-  }
-
-  storedFilesContainTags(tags) {
-    return this.storedFiles.filter(storedFile => {
-      return storedFile.tags.filter(tag => tags.contains(tag)).length
-    })
-  }
-
   dumpFiles() {
-    localStorage.setItem('storedFiles', JSON.stringify(this.storedFiles))
+    State.dumpObj('storedFiles', this.storedFiles)
   }
 
   dumpTags() {
-    localStorage.setItem('allTags', JSON.stringify(this.allTags))
+    State.dumpObj('allTags', this.allTags)
+  }
+
+   dumpSearchTags() {
+    State.dumpObj('searchTags', this.searchTags)
+  }
+
+  dumpAll() {
+    this.dumpFiles()
+    this.dumpTags()
+    this.dumpSearchTags()
+  }
+
+  addFiles(files) {
+    this.storedFiles.push(...files)
+    this.updateTags()
+    this.dumpFiles()
+    this.dumpTags()
   }
 
   deleteFiles(urls) {
@@ -83,29 +99,32 @@ class State {
         }
       }
     })
-  }
-
-  addTags(tags) {
-    tags.forEach(tag => {
-      if (!this.allTags.includes(tag)) {
-        this.allTags.push(tag)
-      }
-    })
+    this.updateTags()
+    this.dumpFiles()
     this.dumpTags()
   }
 
   updateFile(url, newFile) {
-    if (newFile.tags) {
-      this.addTags(newFile.tags)
-    }
-
     for (let i = 0, length = this.storedFiles.length; i < length; ++i) {
       if (this.storedFiles[i].url === url) {
         this.storedFiles[i] = Object.assign({}, this.storedFiles[i], newFile)
-        this.dumpFiles()
         break
       }
     }
+    this.updateTags()
+    this.dumpFiles()
+    this.dumpTags()
+  }
+
+  updateTags() {
+    this.allTags.clear()
+    this.storedFiles.forEach(file => {
+      file.tags.forEach(tag => {
+        if (!this.allTags.includes(tag)) {
+          this.allTags.push(tag)
+        }
+      })
+    })
   }
 }
 
