@@ -1,9 +1,13 @@
 import { observable, computed, action } from 'mobx'
 import { difference, union, intersection } from '../utils'
 
+import { uploadFilesAction } from './upload-files-action'
+import syncFileAction from './sync-file-action'
+
 class State {
   // kind of errors
   uploadingError = observable(false)
+  syncFileError = observable(false)
 
   isUploading = observable(false)
   remainFilesCount = observable(0)
@@ -21,52 +25,9 @@ class State {
     this.dumpTags()
   }
 
-  uploadFiles = action(async (files) => {
-    let tmpFiles = []
+  uploadFiles = action(uploadFilesAction.bind(null, this))
 
-    files = Array.from(files)
-    this.isUploading.set(true)
-    this.remainFilesCount.set(files.length)
-    try {
-      while (this.remainFilesCount.get()) {
-        let file = files.shift()
-        let formData = new FormData()
-
-        formData.append('smfile', file)
-        if (file.size > 5000 * 1000) { throw new Error('The file size exceeds the limit') }
-        
-        let res = await fetch('https://sm.ms/api/upload', { method: 'POST', body: formData })
-        let json = await res.json()
-        
-        if (!this.isUploading.get()) {
-          return
-        }
-        if (res.status !== 200 || json.code !== 'success') { 
-          throw new Error('upload failed!') 
-        }
-
-        let data = json.data
-        tmpFiles.unshift({
-          filename: data.filename,
-          width: data.width,
-          height: data.height,
-          size: data.size,
-          timestamp: data.timestamp,
-          url: data.url,
-          deleteUrl: data['delete'],
-          tags: []
-        })
-        this.uploadedFiles.push(tmpFiles[0])
-        this.remainFilesCount.set(files.length)
-      }
-      
-      this.addFiles(tmpFiles)
-    } catch (e) {
-      this.uploadingError.set(true)
-    } finally {
-      this.isUploading.set(false)
-    }
-  })
+  syncFile = action(syncFileAction.bind(null, this))
 
   uploadedFilesCount = computed(() => this.uploadedFiles.length)
 

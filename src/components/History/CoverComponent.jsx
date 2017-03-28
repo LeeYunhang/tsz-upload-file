@@ -2,12 +2,12 @@ import React, { Component, PropTypes } from 'react'
 import styled from 'styled-components'
 import _CloseIcon from 'react-icons/lib/md/close'
 import _CopyIcon from 'react-icons/lib/md/content-copy'
-import _EditIcon from 'react-icons/lib/md/edit'
+import _SyncIcon from 'react-icons/lib/md/sync'
 import { WithContext as Tags } from 'react-tag-input'
 import { observer } from 'mobx-react'
 
 import state from '../../stores'
-import { PRIMARY } from '../../utils/color.js'
+import { PRIMARY } from '../../utils'
 import { clearSuffix } from '../../utils'
 
 let Div = styled.div`
@@ -21,6 +21,15 @@ let Div = styled.div`
   box-sizing: border-box;
 `
 
+let SyncIcon = styled(_SyncIcon)`
+  position: absolute;
+  right: 48px;
+  top: 16px;
+  font-size: 1.4em;
+  color: ${PRIMARY};
+  cursor: pointer;
+`
+
 let CloseIcon = styled(_CloseIcon)`
   position: absolute;
   right: 16px;
@@ -28,13 +37,6 @@ let CloseIcon = styled(_CloseIcon)`
   font-size: 1.4em;
   color: ${PRIMARY};
   cursor: pointer;
-`
-
-let EditIcon = styled(_EditIcon)`
-  cursor: pointer;
-  font-size: 1.4em;
-  color: ${PRIMARY};
-  margin-left: 16px;
 `
 
 let PhotoName = styled.a`
@@ -144,6 +146,8 @@ export default observer(class CoverComponent extends Component {
     })
   }
 
+  syncPhoto = url => 1
+
   render() {
     let { photoname, width, height, url, timestamp, tags = [] } = this.props
     let suggestions = state.allTags.filter(tag => !tags.includes(tag))
@@ -155,6 +159,7 @@ export default observer(class CoverComponent extends Component {
       <PhotoNameWrapper>
         <PhotoName target="_blank" rel="noopener" href={url}>{photoname}</PhotoName>
       </PhotoNameWrapper>
+      <SyncIcon onClick={this.syncPhoto} />
       <CloseIcon onClick={this.deletePhotoHandler} />
       <Tags
         placeholder="enter tag to filter photos"

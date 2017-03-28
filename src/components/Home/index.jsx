@@ -5,7 +5,7 @@ import _UploadIcon from 'react-icons/lib/md/file-upload'
 import { observer } from 'mobx-react'
 import CloseIcon from 'react-icons/lib/md/close'
 
-import { PRIMARY } from '../../utils/color.js'
+import { PRIMARY } from '../../utils'
 import state from '../../stores'
 import ImageUrlView from './ImageUrlView'
 import Notice from '../Notice/index'

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import _ArrowDropDown from 'react-icons/lib/md/arrow-drop-down'
 import _UrlCopy from 'react-icons/lib/md/content-copy'
 
-import { PRIMARY } from '../../utils/color.js'
+import { PRIMARY } from '../../utils'
 
 let colorAndVertialAlign = `color: ${PRIMARY}; align-self: center;`
 let iconStyles = `${colorAndVertialAlign} font-size: 2em; cursor: pointer;`

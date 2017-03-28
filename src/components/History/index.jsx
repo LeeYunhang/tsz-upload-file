@@ -5,7 +5,7 @@ import { observer } from 'mobx-react'
 import { WithContext as Tags } from 'react-tag-input'
 
 
-import { PRIMARY } from '../../utils/color.js'
+import { PRIMARY } from '../../utils'
 import state from '../../stores'
 import { Gallery } from '../Gallery'
 import CoverComponent from './CoverComponent'

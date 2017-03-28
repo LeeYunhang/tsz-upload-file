@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { PRIMARY } from '../utils/color.js'
+import { PRIMARY } from '../utils/color'
 
 let Footer = styled.footer`
   display: flex;
