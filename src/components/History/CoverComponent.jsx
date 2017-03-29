@@ -146,10 +146,10 @@ export default observer(class CoverComponent extends Component {
     })
   }
 
-  syncPhoto = url => 1
+  syncPhoto = url => state.syncFile(url)
 
   render() {
-    let { photoname, width, height, url, timestamp, tags = [] } = this.props
+    let { photoname, width, height, url, timestamp, tags = [], isSync } = this.props
     let suggestions = state.allTags.filter(tag => !tags.includes(tag))
     let a = state.storedFiles
 
@@ -159,7 +159,7 @@ export default observer(class CoverComponent extends Component {
       <PhotoNameWrapper>
         <PhotoName target="_blank" rel="noopener" href={url}>{photoname}</PhotoName>
       </PhotoNameWrapper>
-      <SyncIcon onClick={this.syncPhoto} />
+      {!isSync && <SyncIcon onClick={this.syncPhoto} />}
       <CloseIcon onClick={this.deletePhotoHandler} />
       <Tags
         placeholder="enter tag to filter photos"

@@ -12,8 +12,10 @@ import CoverComponent from './CoverComponent'
 import { intersection } from '../../utils'
 
 let Div = styled.div`
+  position: relative;
   flex-basis: 100%;
   padding: 32px;
+  
 `
 
 let H1 = styled.h1`
@@ -24,8 +26,16 @@ let H1 = styled.h1`
 let SearchWrapper = styled.div`
   position: relative;
   margin: 32px 30%;
-  border-bottom: solid 1px ${PRIMARY};
   z-index: 1000;
+`
+
+let ChangeSource = styled.a`
+  text-decoration: none;
+  margin-right: 12px;
+  color: ${PRIMARY};
+  font-weight: 500;
+  font-size: 1.2em;
+  cursor: pointer;
 `
 
 const History = observer(class History extends Component {
@@ -49,6 +59,11 @@ const History = observer(class History extends Component {
     state.dumpSearchTags()
   }
 
+  switchPhotosSource = e => {
+    e.preventDefault()
+    state.switchDataSource()
+  }
+
   render() {
     let tags = this.state.tags.map((text, key) => ({ text, key }))
     let suggestions = state.allTags.filter(tag => (
@@ -62,6 +77,7 @@ const History = observer(class History extends Component {
 
     return <Div>
       <SearchWrapper>
+        <ChangeSource onClick="">{state.dataSourceIsPublic.get()? 'Public' : 'Privacy'}</ChangeSource>
         <Tags 
           suggestions={suggestions}
           tags={tags}

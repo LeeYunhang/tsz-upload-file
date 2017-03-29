@@ -9,6 +9,7 @@ class State {
   uploadingError = observable(false)
   syncFileError = observable(false)
 
+  dataSourceIsPublic = observable(false)
   isUploading = observable(false)
   remainFilesCount = observable(0)
   uploadedFiles = observable([])
@@ -30,6 +31,8 @@ class State {
   syncFile = action(syncFileAction.bind(null, this))
 
   uploadedFilesCount = computed(() => this.uploadedFiles.length)
+
+  switchDataSource = null
 
   dumpFiles() {
     State.dumpObj('storedFiles', this.storedFiles)
@@ -54,6 +57,10 @@ class State {
     this.updateTags()
     this.dumpFiles()
     this.dumpTags()
+  }
+
+  getFileByUrl(url) {
+    return this.storedFiles.filter(file => file.url === url)[0]
   }
 
   deleteFiles(urls) {

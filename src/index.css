@@ -17,8 +17,9 @@ body {
 /* Example Styles for React Tags*/
 
 div.ReactTags__tags {
+    display: inline-block;
     position: relative;
-    width: 100%;
+    width: calc(100% - 80px);
 }
 
 /* Styles for the input */
@@ -37,6 +38,8 @@ div.ReactTags__tagInput input:focus {
   width: 100%;
   border: none;
   border-top: 1px solid #8590a6;
+  border-bottom: 1px solid #8590a6;
+  
   padding: 8px 10px;
   box-sizing: border-box;
   display: block;
