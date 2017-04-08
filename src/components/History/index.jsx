@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import Measure from 'react-measure'
 import { observer } from 'mobx-react'
@@ -30,12 +31,12 @@ let SearchWrapper = styled.div`
 `
 
 let ChangeSource = styled.a`
-  text-decoration: none;
   margin-right: 12px;
   color: ${PRIMARY};
   font-weight: 500;
   font-size: 1.2em;
   cursor: pointer;
+  border-bottom: 1px #8590a6 solid;
 `
 
 const History = observer(class History extends Component {
@@ -47,11 +48,27 @@ const History = observer(class History extends Component {
   handleAddition = tag => {
     let tags = this.state.tags
 
-    if (!tags.includes(tag) && state.allTags.includes) {
+    if (!tags.includes(tag) && state.storedTags.includes) {
       tags.push(tag)
       
     }
     state.dumpSearchTags()
+  }
+
+  componentWillMount() {
+    document.getElementById('root').addEventListener('scroll', this.handleScroll)
+  }
+
+  componentWillUnmount() {
+    document.getElementById('root').removeEventListener('scroll', this.handleScroll)
+  }
+
+  handleScroll = () => {
+    this.root = this.root || document.getElementById('root')
+    if (this.galleryHeight - this.root.scrollTop < 500) {
+      state.fetchFilesToSourceFilesAction()
+
+    }
   }
 
   handleDelete = i => {
@@ -59,34 +76,33 @@ const History = observer(class History extends Component {
     state.dumpSearchTags()
   }
 
-  switchPhotosSource = e => {
-    e.preventDefault()
-    state.switchDataSource()
-  }
-
   render() {
     let tags = this.state.tags.map((text, key) => ({ text, key }))
-    let suggestions = state.allTags.filter(tag => (
+    let suggestions = state.sourceTags.filter(tag => (
       !this.state.tags.includes(tag)
     ))
-    let photos = state.storedFiles
+    let photos = state.sourceFiles
       .filter(photo => (
         intersection(this.state.tags, photo.tags).length
           === this.state.tags.length
       ))
 
-    return <Div>
+    return <Div ref={wrapper => this.wrapper = ReactDOM.findDOMNode(wrapper)}>
       <SearchWrapper>
-        <ChangeSource onClick="">{state.dataSourceIsPublic.get()? 'Public' : 'Privacy'}</ChangeSource>
-        <Tags 
-          suggestions={suggestions}
-          tags={tags}
-          autocomplete
-          handleAddition={this.handleAddition}
-          handleDelete={this.handleDelete}
-        />
+        <ChangeSource onClick={state.switchDataSourceAction}>{state.dataSourceIsPublic.get()? 'Public' : 'Privacy'}</ChangeSource>
+        <div style={{width: '80%', display: 'inline-block'}}>
+          <Tags 
+            suggestions={suggestions}
+            tags={tags}
+            autocomplete
+            handleAddition={this.handleAddition}
+            handleDelete={this.handleDelete}
+          />
+        </div>
       </SearchWrapper>
-      <Measure whitelist={['width']}>
+      <Measure whitelist={['width', 'height']} onMeasure={
+        ({ height }) => this.galleryHeight = height
+      }>
         {
           ({ width }) => (
             <Gallery 

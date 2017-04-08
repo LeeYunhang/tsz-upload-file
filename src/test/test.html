@@ -10,8 +10,14 @@
   </style>
 </head>
 <body>
-  <div>
-  <img src="https://ooo.0o0.ooo/2017/03/24/58d3f5961515d.jpg" alt="">
-  </div>
+  <script>
+    async function getFile() {
+      const response = await fetch('http://www.seeonce.cn/tsz/api/v1/pictures/1/100000')
+      const json = await response.json()
+      console.dir(json)
+    }
+
+    onload = getFile
+  </script>
 </body>
 </html>

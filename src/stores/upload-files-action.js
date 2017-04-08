@@ -1,14 +1,14 @@
 
-
-export async function uploadFilesAction(state, files) {
+// upload file to sm.ms
+export async function uploadFilesAction(files) {
   let tmpFiles = []
 
   console.log(files)
   files = Array.from(files)
-  state.isUploading.set(true)
-  state.remainFilesCount.set(files.length)
+  this.isUploading.set(true)
+  this.remainFilesCount.set(files.length)
   try {
-    while (state.remainFilesCount.get()) {
+    while (this.remainFilesCount.get()) {
       let file = files.shift()
       let formData = new FormData()
 
@@ -18,7 +18,7 @@ export async function uploadFilesAction(state, files) {
       let res = await fetch('https://sm.ms/api/upload', { method: 'POST', body: formData })
       let json = await res.json()
       
-      if (!state.isUploading.get()) {
+      if (!this.isUploading.get()) {
         return
       }
       if (res.status !== 200 || json.code !== 'success') { 
@@ -36,14 +36,14 @@ export async function uploadFilesAction(state, files) {
         deleteUrl: data['delete'],
         tags: []
       })
-      state.uploadedFiles.push(tmpFiles[0])
-      state.remainFilesCount.set(files.length)
+      this.uploadedFiles.push(tmpFiles[0])
+      this.remainFilesCount.set(files.length)
     }
     
-    state.addFiles(tmpFiles)
+    this.addStoredFilesAction(tmpFiles)
   } catch(e) {
-    state.uploadingError.set(true)
+    this.uploadingError.set(true)
   } finally {
-    state.isUploading.set(false)
+    this.isUploading.set(false)
   }
 }

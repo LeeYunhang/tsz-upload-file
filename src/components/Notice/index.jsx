@@ -52,9 +52,9 @@ const Notice = observer(class Notice extends Component {
   static defaultProps = {
     show: false,
     status: INFO,
-    icon: <CloseIcon />
+    icon: <CloseIcon />,
   }
-
+  
   render() {
     let propsToDiv = {
       show: this.props.show,

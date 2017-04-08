@@ -111,7 +111,7 @@ const Home = observer(class Home extends Component {
  
     this.dragLeaveHandler()
     if (event.dataTransfer.files.length && files[0].type.indexOf('image') !== -1) {
-      await state.uploadFiles(files)
+      await state.uploadFilesAction(files)
     }
   }
 
@@ -120,7 +120,7 @@ const Home = observer(class Home extends Component {
       this.filesInput.click()
       this.setState({ selectedFiles: true })
     } else {
-      await state.uploadFiles(this.filesInput.files)
+      await state.uploadFilesAction(this.filesInput.files)
       this.setState({ selectedFiles: false })
     }
   }

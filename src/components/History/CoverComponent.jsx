@@ -122,7 +122,7 @@ export default observer(class CoverComponent extends Component {
   }
 
   deletePhotoHandler = () => {
-    state.deleteFiles([this.props.url])
+    state.deleteSourceFileAction(this.props.url)
   }
 
   copyUrlHandler = event => {
@@ -135,22 +135,22 @@ export default observer(class CoverComponent extends Component {
   
     if (!tags.includes(tag)) {
       tags.push(tag)
-      state.updateFile(this.props.url, { tags })
+      state.updateSourceFileAction(this.props.url, { tags })
     }
   }
 
   handleDelete = i => {
     this.props.tags.splice(i, 1)
-    state.updateFile(this.props.url, {
+    state.updateSourceFileAction(this.props.url, {
       tags: this.props.tags.filter((v, index) => index !== i)
     })
   }
 
-  syncPhoto = url => state.syncFile(url)
+  syncPhoto = () => state.syncFileAction(this.props.url)
 
   render() {
     let { photoname, width, height, url, timestamp, tags = [], isSync } = this.props
-    let suggestions = state.allTags.filter(tag => !tags.includes(tag))
+    let suggestions = state.storedTags.filter(tag => !tags.includes(tag))
     let a = state.storedFiles
 
     photoname = clearSuffix(photoname)

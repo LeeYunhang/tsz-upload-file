@@ -1,22 +1,19 @@
 
 import { SYNC_FILE_URL } from '../utils'
 
-
-export default async function(state, url) {
-  const file = state.getFileByUrl(url)
-
+// synchronize file to server
+export default async function(file) {
+  console.log(JSON.stringify(file))
   const response = await fetch(SYNC_FILE_URL, {
     method: 'POST',
     body: JSON.stringify(file),
-    headers: {
-      "Content-Type": 'application/json'
-    },
     credentials: 'omit'
   })
 
   if (response.status === 201) {
     file.isSync = true
   } else {
-    state.syncFileError.set(true)
+    throw new Error('synchronize file failed') 
   }
+
 }
