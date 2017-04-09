@@ -18,11 +18,13 @@ class State {
   isUploading = observable(false)
   uploadedFilesCount = computed(() => this.uploadedFiles.length)
   uploadedFiles = observable([])
+  filterStoredFiles = []
   sourceFiles = observable([])
   syncedFileCount = observable(0)
   sourceTags = observable([])
   fetchedFilesCount = 0
   fetchedTags = []
+  fetchedTheLastFile = false
 
 // ---------- permanent data ----------------
   dataSourceIsPublic = observable(getFromStorage('dataSourceIsPublic') || false)
@@ -82,11 +84,6 @@ class State {
         break
       }
     }
-    // for (let i = 0; i < this.sourceFiles.length; ++i) {
-    //   if (this.sourceFiles[i].url === url) {
-    //     this.sourceFiles.splice(i, 1)
-    //   }
-    // }
     this.updateStoredTags()
     this.dumpAll()
   }
@@ -114,17 +111,36 @@ class State {
     this.storedTags.push(...(new Set(tmp)))
   }
 
+// ------------- search tag -----------------
+
+  addSearchTag = action(async (tag) => {
+    if (!this.searchTags.includes(tag)) {
+      this.searchTags.push(tag)
+      this.dumpSearchTags()
+      await this.refreshSourceFilesAction()
+      
+    }
+  })
+
+  deleteSearchTag = action(async index => {
+    this.searchTags.splice(index, 1)
+    this.dumpSearchTags()
+    await this.refreshSourceFilesAction()
+    
+  })
+
 // ------------- source tag -----------------
-  updateSourceTagsAction = action(async () => {
+  updateSourceTagsAction = action(() => {
     this.sourceTags.clear()
     this.updateStoredTags()
     this.sourceTags.push(...(new Set([...this.fetchedTags, ...this.storedTags])))
-
-    console.log(JSON.stringify(this.sourceTags))
   })
 
   refreshSourceTagsAction = action(async () => {
-    let tags = await fetchTags()
+    let tags = []
+    try {
+      tags = await fetchTags()
+    } catch(e) { }
 
     this.fetchedTags = tags
     await this.updateSourceTagsAction()
@@ -171,22 +187,38 @@ class State {
       this.updateStoredFile(url, newFile)    
     }
   })
+  
   refreshSourceFilesAction = action(async () => {
     this.fetchedFilesCount = 0
+    this.fetchedTheLastFile = false
     this.sourceFiles.clear()
+    this.filterStoreFiles = this.storedFiles.filter(file => {
+      return this.searchTags.every(tag => file.tags.includes(tag))
+    })
     
     await this.fetchFilesToSourceFilesAction()
-  })  
+  })
 
   fetchFilesToSourceFilesAction = action(async () => {
+    if (this.fetchedTheLastFile) { return }
     let files
 
-    if (this.dataSourceIsPublic.get()) {
-      files = await fetchFilesByCount(this.fetchedFilesCount, FETCH_FILES_COUNT)
-      
-      if (this.fetchFileError.get()) { return }
-    } else {
-      files = this.storedFiles.slice(this.fetchedFilesCount, this.fetchedFilesCount + FETCH_FILES_COUNT)
+    try {
+      if (this.dataSourceIsPublic.get()) {
+        if (this.searchTags.length) {
+          files = await fetchFilesByTags(this.searchTags.length, this.fetchedFilesCount, FETCH_FILES_COUNT)
+        } else {
+          files = await fetchFilesByCount(this.fetchedFilesCount, FETCH_FILES_COUNT)
+        }
+      } else {
+        if (this.searchTags.length) {
+          files = this.filterStoreFiles.slice(this.fetchedFilesCount, this.fetchedFilesCount + FETCH_FILES_COUNT)
+        } else {
+          files = this.storedFiles.slice(this.fetchedFilesCount, this.fetchedFilesCount + FETCH_FILES_COUNT)
+        }
+      }
+    } catch(e) {
+      // fetch files failed.
     }
 
     this.fetchedFilesCount += FETCH_FILES_COUNT

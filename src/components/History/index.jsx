@@ -45,35 +45,37 @@ const History = observer(class History extends Component {
     tags: state.searchTags
   }
 
-  handleAddition = tag => {
-    let tags = this.state.tags
-
-    if (!tags.includes(tag) && state.storedTags.includes) {
-      tags.push(tag)
-      
-    }
-    state.dumpSearchTags()
-  }
 
   componentWillMount() {
-    document.getElementById('root').addEventListener('scroll', this.handleScroll)
+    document.body.onscroll = this.handleScroll
+
   }
 
+  componentDidMount() {
+    
+  }
+  
+
   componentWillUnmount() {
-    document.getElementById('root').removeEventListener('scroll', this.handleScroll)
+    // document.body.removeEventListener('scroll', this.handleScroll)
+    document.body.onscroll = null
   }
 
   handleScroll = () => {
-    this.root = this.root || document.getElementById('root')
-    if (this.galleryHeight - this.root.scrollTop < 500) {
+    if (this.needLoadFiles()) {
       state.fetchFilesToSourceFilesAction()
-
     }
   }
 
-  handleDelete = i => {
-    this.state.tags.splice(i, 1)
-    state.dumpSearchTags()
+  needFillBlank = () => {
+    
+  }
+
+  needLoadFiles = () => {
+    let se = document.scrollingElement
+    let curScrollBottom = se.scrollTop + se.clientHeight
+    
+    return curScrollBottom - this.galleryHeight > -600
   }
 
   render() {
@@ -81,12 +83,8 @@ const History = observer(class History extends Component {
     let suggestions = state.sourceTags.filter(tag => (
       !this.state.tags.includes(tag)
     ))
-    let photos = state.sourceFiles
-      .filter(photo => (
-        intersection(this.state.tags, photo.tags).length
-          === this.state.tags.length
-      ))
 
+    
     return <Div ref={wrapper => this.wrapper = ReactDOM.findDOMNode(wrapper)}>
       <SearchWrapper>
         <ChangeSource onClick={state.switchDataSourceAction}>{state.dataSourceIsPublic.get()? 'Public' : 'Privacy'}</ChangeSource>
@@ -95,8 +93,8 @@ const History = observer(class History extends Component {
             suggestions={suggestions}
             tags={tags}
             autocomplete
-            handleAddition={this.handleAddition}
-            handleDelete={this.handleDelete}
+            handleAddition={state.addSearchTag}
+            handleDelete={state.deleteSearchTag}
           />
         </div>
       </SearchWrapper>
@@ -112,7 +110,7 @@ const History = observer(class History extends Component {
                 width > 1024?  3 :
                 width > 480?   2 : 1
               } 
-              photos={photos}
+              photos={state.sourceFiles}
               coverComponent={props => 
                 <CoverComponent
                     {...Object.assign({}, props, { photoname: props.filename })}

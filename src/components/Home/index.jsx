@@ -80,14 +80,22 @@ const UrlList = observer(function ({ uploadedFiles }) {
 
 const Home = observer(class Home extends Component {
 
-  state = { urlViews: null, selectedFiles: false }
+  state = { urlViews: null }
   filesInput = document.createElement('input')
 
   componentDidMount() {
     this.filesInput.setAttribute('type', 'file')
+
+    this.filesInput.multiple = true
+    this.filesInput.addEventListener('change', this.filesChangeHandler)
   }
 
   componentWillUnmount() {
+    this.filesInput.removeEventListener('change', this.filesChangeHandler)
+  }
+
+  filesChangeHandler = async event => {
+    await state.uploadFilesAction(this.filesInput.files)
   }
 
   dragOverHandler = event => {
@@ -116,13 +124,7 @@ const Home = observer(class Home extends Component {
   }
 
   clicHandler = async () => {
-    if (!this.state.selectedFiles) {
-      this.filesInput.click()
-      this.setState({ selectedFiles: true })
-    } else {
-      await state.uploadFilesAction(this.filesInput.files)
-      this.setState({ selectedFiles: false })
-    }
+    this.filesInput.click()
   }
 
   renderNotice = () => {
@@ -151,7 +153,7 @@ const Home = observer(class Home extends Component {
           ref={uploadImage => this.uploadImage = uploadImage}
           >
           <UploadIcon />
-          <P>{this.state.selectedFiles? 'Click to upload images' : 'Drag and drop here'}</P>
+          <P>Drag and drop here</P>
         </UploadImageArea>
         <UrlList uploadedFiles={state.uploadedFiles}/>
       </Div>

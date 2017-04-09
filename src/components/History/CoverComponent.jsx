@@ -93,11 +93,17 @@ let UrlListWrapper = styled.div`
 `
 
 
-function UrlItem({ urlType, content, timestamp, onCopy }) {
+function UrlItem({ urlType, content, timestamp }) {
+  let id = urlType + timestamp
   return <UrlItemWrapper>
       <H5>{urlType}</H5>
-      <Input id={urlType + timestamp} type="text" value={content} readOnly />
-      <CopyIcon onClick={onCopy} />
+      <Input id={id} type="text" value={content} readOnly />
+      <CopyIcon 
+        onClick={() => {
+          document.getElementById(id).select()
+          document.execCommand('copy')
+        }} 
+      />
   </UrlItemWrapper>
 }
 
@@ -106,9 +112,9 @@ function UrlList({ url, timestamp, onCopy }) {
   let html = `<img src="${url}" alt="" title="" />`
 
   return <UrlListWrapper>
-    <UrlItem urlType="URL" content={url} timestamp={timestamp} onCopy={onCopy} />
-    <UrlItem urlType="Markdown" content={markdown} timestamp={timestamp} onCopy={onCopy} />
-    <UrlItem urlType="HTML" content={html} timestamp={timestamp} onCopy={onCopy} />
+    <UrlItem urlType="URL" content={url} timestamp={timestamp} />
+    <UrlItem urlType="Markdown" content={markdown} timestamp={timestamp} />
+    <UrlItem urlType="HTML" content={html} timestamp={timestamp} />
   </UrlListWrapper>
 }
 
@@ -159,17 +165,17 @@ export default observer(class CoverComponent extends Component {
       <PhotoNameWrapper>
         <PhotoName target="_blank" rel="noopener" href={url}>{photoname}</PhotoName>
       </PhotoNameWrapper>
-      {!isSync && <SyncIcon onClick={this.syncPhoto} />}
-      <CloseIcon onClick={this.deletePhotoHandler} />
+      {!isSync && !state.dataSourceIsPublic.get() && <SyncIcon onClick={this.syncPhoto} />}
+      {!state.dataSourceIsPublic.get() && <CloseIcon onClick={this.deletePhotoHandler} />}
       <Tags
         placeholder="enter tag to filter photos"
         suggestions={suggestions}
         tags={tags}
-        autocomplete
+        readOnly={state.dataSourceIsPublic.get()}
         handleAddition={this.handleAddition}
         handleDelete={this.handleDelete}
       />
-      <UrlList onCopy={this.copyUrlHandler} url={url} timestamp={timestamp} />
+      <UrlList url={url} timestamp={timestamp} />
     </Div>
   }
 })

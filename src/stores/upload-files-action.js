@@ -3,7 +3,6 @@
 export async function uploadFilesAction(files) {
   let tmpFiles = []
 
-  console.log(files)
   files = Array.from(files)
   this.isUploading.set(true)
   this.remainFilesCount.set(files.length)

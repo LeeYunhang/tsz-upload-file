@@ -6,8 +6,11 @@ export default async function(file) {
   console.log(JSON.stringify(file))
   const response = await fetch(SYNC_FILE_URL, {
     method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(file),
-    credentials: 'omit'
   })
 
   if (response.status === 201) {

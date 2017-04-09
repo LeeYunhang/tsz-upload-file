@@ -4,15 +4,13 @@ import styled from 'styled-components'
 import { PRIMARY } from '../utils/color'
 
 let Footer = styled.footer`
-  display: flex;
-  height: 60px;
   background-color: lightgray;
-  padding: 0 20%;
+  padding: 12px 20%;
 `
 
 let P = styled.p`
   font-size: 1.2em;
-  align-self: center;
+  light-height: 100%;
   color: ${PRIMARY};
 `
 
