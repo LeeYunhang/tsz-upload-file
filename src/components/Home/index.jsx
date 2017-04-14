@@ -9,7 +9,6 @@ import { PRIMARY } from '../../utils'
 import state from '../../stores'
 import ImageUrlView from './ImageUrlView'
 import Notice from '../Notice/index'
-import './index.css'
 import { INFO, ERROR } from '../../utils'
 
 let stopUploading = () => state.isUploading.set(false)
