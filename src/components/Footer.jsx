@@ -1,19 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { normalColor } from '../color.js'
+import { PRIMARY } from '../utils/color'
 
 let Footer = styled.footer`
-  display: flex;
-  height: 60px;
   background-color: lightgray;
-  padding: 0 20%;
+  padding: 12px 20%;
 `
 
 let P = styled.p`
   font-size: 1.2em;
-  align-self: center;
-  ${normalColor}
+  light-height: 100%;
+  color: ${PRIMARY};
 `
 
 
