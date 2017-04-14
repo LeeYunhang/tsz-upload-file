@@ -31,6 +31,7 @@ div.ReactTags__tagInput {
   display: inline-block;
   margin-top: 4px;
 }
+
 div.ReactTags__tagInput input, 
 div.ReactTags__tagInput input:focus {
   background: none;
@@ -39,7 +40,7 @@ div.ReactTags__tagInput input:focus {
   font-size: 12px;
   width: 100%;
   border: none;
-  border: 1px solid #8590a6;
+  border-top: 1px solid #8590a6;
   border-bottom: 1px solid #8590a6;
   
   padding: 8px 10px;

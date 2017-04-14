@@ -9,6 +9,7 @@ import { observer } from 'mobx-react'
 import state from '../../stores'
 import { PRIMARY } from '../../utils'
 import { clearSuffix } from '../../utils'
+import { rotate } from '../key-frames.js'
 
 let Div = styled.div`
   display: flex;
@@ -28,6 +29,8 @@ let SyncIcon = styled(_SyncIcon)`
   font-size: 1.4em;
   color: ${PRIMARY};
   cursor: pointer;
+
+  ${({ syncing }) => syncing? `animation: 1s ${rotate} linear infinite` : ''}
 `
 
 let CloseIcon = styled(_CloseIcon)`
@@ -127,6 +130,8 @@ export default observer(class CoverComponent extends Component {
     timestamp: PropTypes.number.isRequired,
   }
 
+  state = { isSync: false }
+
   deletePhotoHandler = () => {
     state.deleteSourceFileAction(this.props.url)
   }
@@ -137,27 +142,32 @@ export default observer(class CoverComponent extends Component {
   }
 
   handleAddition = tag => {
-    let tags = this.props.tags
+    let tags = this.props.data.tags
   
     if (!tags.includes(tag)) {
       tags.push(tag)
-      state.updateSourceFileAction(this.props.url, { tags })
+      state.updateSourceFileAction(this.props.data.url, { tags })
     }
   }
 
   handleDelete = i => {
-    this.props.tags.splice(i, 1)
+    this.props.data.tags.splice(i, 1)
     state.updateSourceFileAction(this.props.url, {
-      tags: this.props.tags.filter((v, index) => index !== i)
+      tags: this.props.data.tags.filter((v, index) => index !== i)
     })
   }
 
-  syncPhoto = () => state.syncFileAction(this.props.url)
+  syncPhoto = async () => {
+    await state.syncFileAction(this.props.data)
+
+    this.setState({ isSync: true })
+  }
 
   render() {
-    let { photoname, width, height, url, timestamp, tags = [], isSync } = this.props
+    let { photoname, width, height, url, timestamp, tags = [], isSync } = this.props.data
     let suggestions = state.storedTags.filter(tag => !tags.includes(tag))
     let a = state.storedFiles
+    let syncing = state.syncingFiles.some(file => file.url === url)
 
     photoname = clearSuffix(photoname)
     tags = tags.map((tag, key) => ({ key, 'text': tag }))
@@ -165,10 +175,10 @@ export default observer(class CoverComponent extends Component {
       <PhotoNameWrapper>
         <PhotoName target="_blank" rel="noopener" href={url}>{photoname}</PhotoName>
       </PhotoNameWrapper>
-      {!isSync && !state.dataSourceIsPublic.get() && <SyncIcon onClick={this.syncPhoto} />}
-      {!state.dataSourceIsPublic.get() && <CloseIcon onClick={this.deletePhotoHandler} />}
+      {!this.state.isSync && !isSync && !state.dataSourceIsPublic.get() && <SyncIcon syncing={syncing} onClick={this.syncPhoto} />}
+      {!state.dataSourceIsPublic.get() && <CloseIcon  onClick={this.deletePhotoHandler} />}
       <Tags
-        placeholder="enter tag to filter photos"
+        placeholder="add tag for this photo"
         suggestions={suggestions}
         tags={tags}
         readOnly={state.dataSourceIsPublic.get()}

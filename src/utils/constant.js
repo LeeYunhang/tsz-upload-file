@@ -11,4 +11,4 @@ export const FETCH_FILES_URL = `${API_ROOT}/pictures`
 export const SYNC_FILE_URL = `${API_ROOT}/pictures`
 export const FETCH_TAGS_URL = `${API_ROOT}/tags`
 
-export const FETCH_FILES_COUNT = 30
+export const FETCH_FILES_COUNT = 15

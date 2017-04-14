@@ -58,6 +58,8 @@ class Nav extends Component {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/history">History</Link></li>
         <li><Link to="/about">About</Link></li>
+        <li><Link to="/log">Log</Link></li>
+          
       </List>
     </Header>
   }

@@ -8,16 +8,22 @@
   <style>
 
   </style>
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
 </head>
 <body>
-  <script>
-    async function getFile() {
-      const response = await fetch('http://www.seeonce.cn/tsz/api/v1/pictures/1/100000')
-      const json = await response.json()
-      console.dir(json)
-    }
-
-    onload = getFile
-  </script>
+  <img src="https://ooo.0o0.ooo/2017/03/28/58d95dc1d6abc.png" alt="" title="" />
+    <script>
+      $.ajax({
+        type: "POST",
+        // contentType: 'text/plain',
+        url: "http://www.seeonce.cn/tsz/api/v1/pictures",
+        data: JSON.stringify({"filename":"sanli.jpg","width":215,"height":235,"size":6776,"timestamp":1491727450,"url":"https://ooo.0o0.ooo/2017/04/09/58e9f45ad1b4b.jpg","deleteUrl":"https://sm.ms/api/delete/fpc1h6mFEOiBqjM","tags":[],"isSync":true}),
+        success: () => 1,
+        dataType: 'json'
+      });
+    </script>
 </body>
 </html>

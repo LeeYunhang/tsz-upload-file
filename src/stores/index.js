@@ -13,6 +13,7 @@ class State {
 // ---------- temporary data ----------------
   uploadingError = observable(false)
   syncFileError = observable(false)
+  syncingFiles = observable([])
   fetchFileError = observable(false)
   remainFilesCount = observable(0)
   isUploading = observable(false)
@@ -49,14 +50,19 @@ class State {
 
   uploadFilesAction = action(uploadFilesAction.bind(this))
 
-  syncFileAction = action(async (url) => {
-    let file = this.getFileByUrl(url)   
-    
+  syncFileAction = action(async (file) => {
     try {
+      this.syncingFiles.push(file)
       await syncFile(file)
-      file.isSync = true
+
+      this.syncingFiles.clear()
+      this.syncingFiles.push(...this.syncingFiles.filter(f => f.url !== file.url))
+      
+      this.updateSourceFileAction(file.url, { isSync: true })
     } catch(e) {
       this.syncFileError.set(true)
+    } finally {
+      this.syncingFiles.pop()
     }
   })
 
@@ -148,19 +154,7 @@ class State {
 
 // ------------- source file ----------------
   addSourceFileAction = action((file) => {
-    const { url, width, height } = file
-    let length = this.sourceFiles.length
-    let tempUrl = `http://placehold.it/${width}x${height}`
-    let image = new Image()
-
-    image.src = tempUrl
-    this.sourceFiles.push(Object.assign({}, file, { url: tempUrl }))
-
-    image.onload = runInAction(() => {
-      if (this.sourceFiles[length] && this.sourceFiles[length].url === tempUrl) {
-        this.sourceFiles[length].url = url
-      }
-    })
+    this.sourceFiles.push(file)
   })
 
   deleteSourceFileAction = action((url) => {
@@ -186,6 +180,8 @@ class State {
     if (!this.dataSourceIsPublic.get()) {
       this.updateStoredFile(url, newFile)    
     }
+
+    this.updateSourceTagsAction()
   })
   
   refreshSourceFilesAction = action(async () => {
@@ -201,19 +197,19 @@ class State {
 
   fetchFilesToSourceFilesAction = action(async () => {
     if (this.fetchedTheLastFile) { return }
-    let files
-
+    let files = []
     try {
       if (this.dataSourceIsPublic.get()) {
         if (this.searchTags.length) {
-          files = await fetchFilesByTags(this.searchTags.length, this.fetchedFilesCount, FETCH_FILES_COUNT)
+          files = await fetchFilesByTags(this.searchTags, this.fetchedFilesCount, FETCH_FILES_COUNT)
+
         } else {
           files = await fetchFilesByCount(this.fetchedFilesCount, FETCH_FILES_COUNT)
         }
       } else {
-        if (this.searchTags.length) {
+        if (this.searchTags.length && this.filterStoreFiles.length > this.fetchedFilesCount) {
           files = this.filterStoreFiles.slice(this.fetchedFilesCount, this.fetchedFilesCount + FETCH_FILES_COUNT)
-        } else {
+        } else if (this.storedFiles.length > this.fetchedFilesCount) {
           files = this.storedFiles.slice(this.fetchedFilesCount, this.fetchedFilesCount + FETCH_FILES_COUNT)
         }
       }
@@ -221,7 +217,7 @@ class State {
       // fetch files failed.
     }
 
-    this.fetchedFilesCount += FETCH_FILES_COUNT
+    files.length && (this.fetchedFilesCount += FETCH_FILES_COUNT)
     files.forEach(this.addSourceFileAction)
   })
 

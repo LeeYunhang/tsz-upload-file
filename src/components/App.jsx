@@ -7,6 +7,7 @@ import Footer from './Footer'
 import History from './History'
 import Home from './Home'
 import About from './About'
+import Log from './Log'
 
 
 let Div = styled.div`
@@ -25,6 +26,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/history" component={History} />
           <Route path="/about" component={About} />
+          <Route path="/log" component={Log} />
           <Footer />
         </Div>
       </Router>

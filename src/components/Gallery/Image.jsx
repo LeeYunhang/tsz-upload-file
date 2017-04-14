@@ -1,16 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 import styled from 'styled-components'
 
+import { PRIMARY } from '../../utils'
 let Img = styled.img`
   width: 100%;
+  opacity: ${props => props.hidden? '0' : '1'}
   margin: ${props => props.margin}px;
   margin-bottom: ${props => props.margin - 4}px;
   margin-top: 0;
+  background-color: ${PRIMARY};
+  transition: all .3s ease-in-out;
 `
 
 let ImageWrapper = styled.div`
   display: inline-block;
   position: relative;
+  
   vertical-align: top;
   width: 100%;
   height: auto;
@@ -29,7 +34,10 @@ let CoverComponentWrapper = styled.div`
 
 export default class Image extends Component {
 
-  state = { coverComponent: null }
+  state = { 
+    coverComponent: null,
+    hidden: true
+  }
 
   clickHandler = () => {
     if (typeof this.props.onClick === 'function') {
@@ -47,12 +55,18 @@ export default class Image extends Component {
     this.setState({ coverComponent: null })
   }
 
+  imageLoadedHandler = () => {
+    this.setState({ hidden: false })
+  }
+
   render() {
-    return <ImageWrapper 
+    return <ImageWrapper
       isPointer={this.props.isPointer}
       style={{borderRadius: this.props.radius + 'px'}}
     >
       <Img
+        onLoad={this.imageLoadedHandler}
+        hidden={this.state.hidden}
         src={this.props.url} alt={this.props.alt}
         style={{ width: 100 + '%' }}
         margin={this.props.margin}
