@@ -91,13 +91,6 @@ anymatch@^1.3.0:
     arrify "^1.0.0"
     micromatch "^2.1.5"
 
-aphrodite@^0.5.0:
-  version "0.5.0"
-  resolved "http://r.cnpmjs.org/aphrodite/download/aphrodite-0.5.0.tgz#a4b9a8902662395d2702e70ac7a2b4ca66f25703"
-  dependencies:
-    asap "^2.0.3"
-    inline-style-prefixer "^2.0.0"
-
 append-transform@^0.4.0:
   version "0.4.0"
   resolved "http://r.cnpmjs.org/append-transform/download/append-transform-0.4.0.tgz#d76ebf8ca94d276e247a36bad44a4b74ab611991"
@@ -163,7 +156,7 @@ arrify@^1.0.0, arrify@^1.0.1:
   version "1.0.1"
   resolved "http://r.cnpmjs.org/arrify/download/arrify-1.0.1.tgz#898508da2226f380df904728456849c1501a4b0d"
 
-asap@^2.0.3, asap@~2.0.3:
+asap@~2.0.3:
   version "2.0.5"
   resolved "http://r.cnpmjs.org/asap/download/asap-2.0.5.tgz#522765b50c3510490e52d7dcfe085ef9ba96958f"
 
@@ -1115,10 +1108,6 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
-classnames@^2.2.0:
-  version "2.2.5"
-  resolved "http://r.cnpmjs.org/classnames/download/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
-
 clean-css@4.0.x:
   version "4.0.8"
   resolved "http://r.cnpmjs.org/clean-css/download/clean-css-4.0.8.tgz#063dfd593404d3a3d1db494d4b6d0f378b0781b6"
@@ -1504,19 +1493,9 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-date-now@1.0.1:
-  version "1.0.1"
-  resolved "http://r.cnpmjs.org/date-now/download/date-now-1.0.1.tgz#bb7d086438debe4182a485fb3df3fbfb99d6153c"
-
 date-now@^0.1.4:
   version "0.1.4"
   resolved "http://r.cnpmjs.org/date-now/download/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
-
-debounce@^1.0.0:
-  version "1.0.0"
-  resolved "http://r.cnpmjs.org/debounce/download/debounce-1.0.0.tgz#0948af513d2e4ce407916f8506a423d3f9cf72d8"
-  dependencies:
-    date-now "1.0.1"
 
 debug@2.2.0, debug@~2.2.0:
   version "2.2.0"
@@ -1605,19 +1584,6 @@ diff@^3.0.0:
 discontinuous-range@1.0.0:
   version "1.0.0"
   resolved "http://r.cnpmjs.org/discontinuous-range/download/discontinuous-range-1.0.0.tgz#e38331f0844bba49b9a9cb71c771585aab1bc65a"
-
-disposables@^1.0.1:
-  version "1.0.1"
-  resolved "http://r.cnpmjs.org/disposables/download/disposables-1.0.1.tgz#064727a25b54f502bd82b89aa2dfb8df9f1b39e3"
-
-dnd-core@^2.2.4:
-  version "2.2.4"
-  resolved "http://r.cnpmjs.org/dnd-core/download/dnd-core-2.2.4.tgz#a05d49220fb2b05d08b99a00177c01c9a1c445ad"
-  dependencies:
-    asap "^2.0.3"
-    invariant "^2.0.0"
-    lodash "^4.2.0"
-    redux "^3.2.0"
 
 doctrine@1.3.x:
   version "1.3.0"
@@ -2298,10 +2264,6 @@ get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "http://r.cnpmjs.org/get-caller-file/download/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
 
-get-node-dimensions@^1.2.0:
-  version "1.2.2"
-  resolved "http://r.cnpmjs.org/get-node-dimensions/download/get-node-dimensions-1.2.2.tgz#7a71e8624cf9e1ab74599bb05b7e5116e995e45b"
-
 getpass@^0.1.1:
   version "0.1.6"
   resolved "http://r.cnpmjs.org/getpass/download/getpass-0.1.6.tgz#283ffd9fc1256840875311c1b60e8c40187110e6"
@@ -2603,7 +2565,7 @@ ini@~1.3.0:
   version "1.3.4"
   resolved "http://r.cnpmjs.org/ini/download/ini-1.3.4.tgz#0537cb79daf59b59a1a517dff706c86ec039162e"
 
-inline-style-prefixer@^2.0.0, inline-style-prefixer@^2.0.5:
+inline-style-prefixer@^2.0.5:
   version "2.0.5"
   resolved "http://r.cnpmjs.org/inline-style-prefixer/download/inline-style-prefixer-2.0.5.tgz#c153c7e88fd84fef5c602e95a8168b2770671fe7"
   dependencies:
@@ -2636,7 +2598,7 @@ interpret@^1.0.0:
   version "1.0.1"
   resolved "http://r.cnpmjs.org/interpret/download/interpret-1.0.1.tgz#d579fb7f693b858004947af39fa0db49f795602c"
 
-invariant@^2.0.0, invariant@^2.1.0, invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
+invariant@^2.2.0, invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.2"
   resolved "http://r.cnpmjs.org/invariant/download/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
@@ -3256,10 +3218,6 @@ loader-utils@0.2.x, loader-utils@^0.2.11, loader-utils@^0.2.16, loader-utils@^0.
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-lodash-es@^4.2.1:
-  version "4.17.4"
-  resolved "http://r.cnpmjs.org/lodash-es/download/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
-
 lodash._arraycopy@^3.0.0:
   version "3.0.0"
   resolved "http://r.cnpmjs.org/lodash._arraycopy/download/lodash._arraycopy-3.0.0.tgz#76e7b7c1f1fb92547374878a562ed06a3e50f6e1"
@@ -3349,7 +3307,7 @@ lodash.uniq@^4.3.0:
   version "4.5.0"
   resolved "http://r.cnpmjs.org/lodash.uniq/download/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.14.0, lodash@^4.14.1, lodash@^4.15.0, lodash@^4.16.4, lodash@^4.17.2, lodash@^4.2.0, lodash@^4.2.1, lodash@^4.3.0:
+"lodash@>=3.5 <5", lodash@^4.0.0, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.16.4, lodash@^4.17.2, lodash@^4.2.0, lodash@^4.3.0:
   version "4.17.4"
   resolved "http://r.cnpmjs.org/lodash/download/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -3501,10 +3459,6 @@ mobx-react@^4.1.3:
 mobx@^3.1.5:
   version "3.1.5"
   resolved "http://r.cnpmjs.org/mobx/download/mobx-3.1.5.tgz#1135ad29d2b5b6160ddbcb702a36d3e7211748ec"
-
-moment@^2.18.1:
-  version "2.18.1"
-  resolved "http://r.cnpmjs.org/moment/download/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 
 ms@0.7.1:
   version "0.7.1"
@@ -4290,13 +4244,6 @@ rc@~1.1.6:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-addons-css-transition-group@^15.3.0:
-  version "15.4.2"
-  resolved "http://r.cnpmjs.org/react-addons-css-transition-group/download/react-addons-css-transition-group-15.4.2.tgz#b7828834dfa14229fe07750e331e8a8cb6fb7745"
-  dependencies:
-    fbjs "^0.8.4"
-    object-assign "^4.1.0"
-
 react-dev-utils@^0.5.2:
   version "0.5.2"
   resolved "http://r.cnpmjs.org/react-dev-utils/download/react-dev-utils-0.5.2.tgz#50d0b962d3a94b6c2e8f2011ed6468e4124bc410"
@@ -4312,22 +4259,6 @@ react-dev-utils@^0.5.2:
     sockjs-client "1.0.1"
     strip-ansi "3.0.1"
 
-react-dnd-html5-backend@^2.0.0:
-  version "2.2.4"
-  resolved "http://r.cnpmjs.org/react-dnd-html5-backend/download/react-dnd-html5-backend-2.2.4.tgz#6c4a704efaa35cf568f40376ed82b8a3eb3c26df"
-  dependencies:
-    lodash "^4.2.0"
-
-react-dnd@^2.0.2:
-  version "2.2.4"
-  resolved "http://r.cnpmjs.org/react-dnd/download/react-dnd-2.2.4.tgz#8982d557cc620b1f201a8b6ebda894b622af903f"
-  dependencies:
-    disposables "^1.0.1"
-    dnd-core "^2.2.4"
-    hoist-non-react-statics "^1.2.0"
-    invariant "^2.1.0"
-    lodash "^4.2.0"
-
 react-dom@15.4.2:
   version "15.4.2"
   resolved "http://r.cnpmjs.org/react-dom/download/react-dom-15.4.2.tgz#015363f05b0a1fd52ae9efdd3a0060d90695208f"
@@ -4335,12 +4266,6 @@ react-dom@15.4.2:
     fbjs "^0.8.1"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-
-react-flipcard@^0.2.1:
-  version "0.2.1"
-  resolved "http://r.cnpmjs.org/react-flipcard/download/react-flipcard-0.2.1.tgz#7d439c5755e5a58d81ddea0c8ff0712c3d8e8048"
-  dependencies:
-    classnames "^2.2.0"
 
 react-icon-base@2.0.4:
   version "2.0.4"
@@ -4351,25 +4276,6 @@ react-icons@^2.2.3:
   resolved "http://r.cnpmjs.org/react-icons/download/react-icons-2.2.3.tgz#3b4847923065ecb09f8ba7f7e422112de0195196"
   dependencies:
     react-icon-base "2.0.4"
-
-react-images@^0.5.2:
-  version "0.5.2"
-  resolved "http://r.cnpmjs.org/react-images/download/react-images-0.5.2.tgz#e1d537f9bcc71b8ba46b8d3ec984e0ee2ffd641b"
-  dependencies:
-    aphrodite "^0.5.0"
-    react-addons-css-transition-group "^15.3.0"
-    react-scrolllock "^1.0.1"
-
-react-measure@^1.4.6:
-  version "1.4.6"
-  resolved "http://r.cnpmjs.org/react-measure/download/react-measure-1.4.6.tgz#db3f91bf819922933cc9af34664d098d3242a955"
-  dependencies:
-    get-node-dimensions "^1.2.0"
-    resize-observer-polyfill "^1.4.1"
-
-react-photo-gallery@^5.3.0:
-  version "5.3.0"
-  resolved "http://r.cnpmjs.org/react-photo-gallery/download/react-photo-gallery-5.3.0.tgz#8bded5598e7578976a6c5a584b87c29dfeff3e98"
 
 react-router-dom@^4.0.0:
   version "4.0.0"
@@ -4432,18 +4338,6 @@ react-scripts@0.9.5:
     whatwg-fetch "2.0.2"
   optionalDependencies:
     fsevents "1.0.17"
-
-react-scrolllock@^1.0.1:
-  version "1.0.5"
-  resolved "http://r.cnpmjs.org/react-scrolllock/download/react-scrolllock-1.0.5.tgz#66829739cf70e2380fd39b9b2f1215b059bcfa05"
-
-react-tag-input@^4.6.2:
-  version "4.6.2"
-  resolved "http://r.cnpmjs.org/react-tag-input/download/react-tag-input-4.6.2.tgz#27f5b6366385faa7798b7593de018c9e9ef033de"
-  dependencies:
-    lodash "^4.14.1"
-    react-dnd "^2.0.2"
-    react-dnd-html5-backend "^2.0.0"
 
 react@15.4.2:
   version "15.4.2"
@@ -4549,15 +4443,6 @@ reduce-function-call@^1.0.1:
   resolved "http://r.cnpmjs.org/reduce-function-call/download/reduce-function-call-1.0.2.tgz#5a200bf92e0e37751752fe45b0ab330fd4b6be99"
   dependencies:
     balanced-match "^0.4.2"
-
-redux@^3.2.0:
-  version "3.6.0"
-  resolved "http://r.cnpmjs.org/redux/download/redux-3.6.0.tgz#887c2b3d0b9bd86eca2be70571c27654c19e188d"
-  dependencies:
-    lodash "^4.2.1"
-    lodash-es "^4.2.1"
-    loose-envify "^1.1.0"
-    symbol-observable "^1.0.2"
 
 regenerate@^1.2.1:
   version "1.3.2"
@@ -4685,10 +4570,6 @@ require-uncached@^1.0.2:
 requires-port@1.0.x, requires-port@1.x.x:
   version "1.0.0"
   resolved "http://r.cnpmjs.org/requires-port/download/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
-
-resize-observer-polyfill@^1.4.1:
-  version "1.4.1"
-  resolved "http://r.cnpmjs.org/resize-observer-polyfill/download/resize-observer-polyfill-1.4.1.tgz#db97349f0f5b29764ce3e03bf8982ddbfa076613"
 
 resolve-from@^1.0.0:
   version "1.0.1"
@@ -5077,10 +4958,6 @@ svgo@^0.7.0:
     mkdirp "~0.5.1"
     sax "~1.2.1"
     whet.extend "~0.9.9"
-
-symbol-observable@^1.0.2:
-  version "1.0.4"
-  resolved "http://r.cnpmjs.org/symbol-observable/download/symbol-observable-1.0.4.tgz#29bf615d4aa7121bdd898b22d4b3f9bc4e2aa03d"
 
 symbol-tree@^3.2.1:
   version "3.2.2"

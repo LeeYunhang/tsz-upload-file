@@ -3,9 +3,9 @@ import styled from 'styled-components'
 import _ArrowDropDown from 'react-icons/lib/md/arrow-drop-down'
 import _UrlCopy from 'react-icons/lib/md/content-copy'
 
-import { PRIMARY } from '../../utils'
+import { normalColor, normal } from '../../color.js'
 
-let colorAndVertialAlign = `color: ${PRIMARY}; align-self: center;`
+let colorAndVertialAlign = `${normalColor} align-self: center;`
 let iconStyles = `${colorAndVertialAlign} font-size: 2em; cursor: pointer;`
 
 let Div = styled.div`
@@ -63,9 +63,9 @@ let List = styled.ul`
 let Item = styled.li`
   display: flex;
   &:first-child {
-    border-top: 1px solid ${PRIMARY};
+    border-top: 1px solid ${normal}
   }
-  border-bottom: 1px solid ${PRIMARY};
+  border-bottom: 1px solid ${normal}
   &:last-child {
     border-bottom: 0
   }
@@ -86,12 +86,12 @@ class ImageUrlView extends PureComponent {
 
   state = { isExpended: false }
 
-  static defaultProps = { url: 'https://mrcodex.com', filename: 'unnamed', timestamp: 0 }
+  static defaultProps = { url: 'https://mrcodex.com', filename: 'unnamed.jpeg', date: 1 }
 
   clickHandler = () => this.setState({ isExpended: !this.state.isExpended })
 
   render() {
-    let { url, filename, timestamp } = this.props
+    let { url, filename, date } = this.props
     let markdown = `![](${url})`
     let html = `<img src="${url}" alt="" title="" />`
 
@@ -102,31 +102,32 @@ class ImageUrlView extends PureComponent {
           className={this.state.isExpended? 'expended' : null}
         />
         <H3 onClick={this.clickHandler}>{filename}</H3>
-        <Url id={"url" + timestamp} src={url} value={url} readOnly />
+        <Url id={"url" + date} src={url} value={url} readOnly />
         <FillDiv></FillDiv>
         <UrlCopyView copyFn={() => {
-          document.querySelector("#url" + timestamp).select()
+          console.log(date)
+          document.querySelector("#url" + date).select()
           document.execCommand('copy')  
         }} url={url} />
       </Div>
       <List style={{ display: this.state.isExpended? undefined : 'none' }}>
-        <Item key={"markdown" + timestamp}>
+        <Item>
           <ArrowDropDown style={{ visibility: 'hidden' }}/>
           <H3>Markdown</H3>
-          <Url id={"markdown" + timestamp} value={markdown} readOnly />
+          <Url id={"markdown" + date} value={markdown} readOnly />
           <FillDiv></FillDiv>
           <UrlCopyView copyFn={() => {
-            document.querySelector("#markdown" + timestamp).select()
+            document.querySelector("#markdown" + date).select()
             document.execCommand('copy')
           }} url={markdown}/>
         </Item>
-        <Item key={"html" + timestamp}>
+        <Item>
           <ArrowDropDown style={{ visibility: 'hidden' }}/>
           <H3>HTML</H3>
-          <Url id={"html" + timestamp} value={html} readOnly />
+          <Url id={"html" + date} value={html} readOnly />
           <FillDiv></FillDiv>
           <UrlCopyView copyFn={() => {
-            document.querySelector("#html" + timestamp).select()
+            document.querySelector("#html" + date).select()
           document.execCommand('copy')
           }} url={html} />
         </Item>

@@ -3,17 +3,12 @@ import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import _UploadIcon from 'react-icons/lib/md/file-upload'
 import { observer } from 'mobx-react'
-import CloseIcon from 'react-icons/lib/md/close'
 
-import { PRIMARY } from '../../utils'
+import { normalColor, normal } from '../../color.js'
 import state from '../../stores'
 import ImageUrlView from './ImageUrlView'
-import Notice from '../Notice/index'
+import Notice from '../Notice'
 import './index.css'
-import { INFO, ERROR } from '../../utils'
-
-let stopUploading = () => state.isUploading.set(false)
-let handleError = () => void(stopUploading()) || state.uploadingError.set(false)
 
 let Div = styled.div`
   margin: 2em 0;
@@ -28,7 +23,7 @@ let H1 = styled.h1`
   font-size: 2em;
   padding: .4em 0;
   border-bottom: lightgray 1px solid; 
-  color: ${PRIMARY};
+  ${normalColor}
   
   &::after {
     padding-left: 2em;
@@ -43,17 +38,18 @@ let UploadImageArea = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border: dashed ${PRIMARY} 2px;
+  border: dashed ${normal} 2px;
   border-radius: 4px;
 `
 
 let Main = styled.main`
   padding: 0 20%;
   flex-basis: 100%;
+  overflow-y: auto;
 `
 
 let P = styled.p`
-  color: ${PRIMARY};
+  ${normalColor}
   margin: 0 0 2em;
   font-size: 1.5em;
 `
@@ -62,14 +58,14 @@ let UploadIcon = styled(_UploadIcon)`
   width: 4em;
   height: 4em;
   margin: 5em 0 .5em;
-  color: ${PRIMARY};
+  ${normalColor}
 `
 
 const UrlList = observer(function ({ uploadedFiles }) {
   return <List>
     {uploadedFiles.map((result, index) => (
       <li 
-        key={result.timestamp + result.url} 
+        key={result.date} 
         style={{ margin: '1em 0' }}
       >
         <ImageUrlView {...result} />
@@ -80,22 +76,14 @@ const UrlList = observer(function ({ uploadedFiles }) {
 
 const Home = observer(class Home extends Component {
 
-  state = { urlViews: null }
+  state = { urlViews: null, selectedFiles: false }
   filesInput = document.createElement('input')
 
   componentDidMount() {
     this.filesInput.setAttribute('type', 'file')
-
-    this.filesInput.multiple = true
-    this.filesInput.addEventListener('change', this.filesChangeHandler)
   }
 
   componentWillUnmount() {
-    this.filesInput.removeEventListener('change', this.filesChangeHandler)
-  }
-
-  filesChangeHandler = async event => {
-    await state.uploadFilesAction(this.filesInput.files)
   }
 
   dragOverHandler = event => {
@@ -119,23 +107,18 @@ const Home = observer(class Home extends Component {
  
     this.dragLeaveHandler()
     if (event.dataTransfer.files.length && files[0].type.indexOf('image') !== -1) {
-      await state.uploadFilesAction(files)
+      await state.uploadFiles(files)
     }
   }
 
   clicHandler = async () => {
-    this.filesInput.click()
-  }
-
-  renderNotice = () => {
-    let show = state.isUploading.get() || state.uploadingError.get()
-    let text = state.uploadingError.get()? 'uploading failed!' 
-      : `uploaded: ${state.uploadedFilesCount.get() || 0} 
-        remain: ${state.remainFilesCount.get() || 0}`
-    let status = state.uploadingError.get()? ERROR : INFO
-    let icon = <CloseIcon onClick={state.uploadingError.get()? handleError : stopUploading} />
-
-    return <Notice status={status} show={show} text={text} icon={icon} />
+    if (!this.state.selectedFiles) {
+      this.filesInput.click()
+      this.setState({ selectedFiles: true })
+    } else {
+      await state.uploadFiles(this.filesInput.files)
+      this.setState({ selectedFiles: false })
+    }
   }
 
   render() {
@@ -153,11 +136,11 @@ const Home = observer(class Home extends Component {
           ref={uploadImage => this.uploadImage = uploadImage}
           >
           <UploadIcon />
-          <P>Drag and drop here</P>
+          <P>{this.state.selectedFiles? 'Click to upload images' : 'Drag and drop here'}</P>
         </UploadImageArea>
         <UrlList uploadedFiles={state.uploadedFiles}/>
+        <Notice {...state}/>
       </Div>
-      {this.renderNotice()}
     </Main>
   }
 })
