@@ -133,7 +133,7 @@ export default observer(class CoverComponent extends Component {
   state = { isSync: false }
 
   deletePhotoHandler = () => {
-    state.deleteSourceFileAction(this.props.url)
+    state.deleteSourceFileAction(this.props.data.url)
   }
 
   copyUrlHandler = event => {
@@ -152,7 +152,7 @@ export default observer(class CoverComponent extends Component {
 
   handleDelete = i => {
     this.props.data.tags.splice(i, 1)
-    state.updateSourceFileAction(this.props.url, {
+    state.updateSourceFileAction(this.props.data.url, {
       tags: this.props.data.tags.filter((v, index) => index !== i)
     })
   }

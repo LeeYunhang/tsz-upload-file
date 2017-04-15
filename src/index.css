@@ -94,3 +94,7 @@ div.ReactTags__suggestions ul li.active {
     background: #b7cfe0;
     cursor: pointer;
 }
+
+.expended {
+  transform: rotate(180deg);  
+}
