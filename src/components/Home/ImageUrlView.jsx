@@ -2,6 +2,8 @@ import React, {  PureComponent } from 'react'
 import styled from 'styled-components'
 import _ArrowDropDown from 'react-icons/lib/md/arrow-drop-down'
 import _UrlCopy from 'react-icons/lib/md/content-copy'
+import ReactTooltip from 'react-tooltip'
+
 
 import { PRIMARY } from '../../utils'
 
@@ -78,8 +80,13 @@ let FillDiv = styled.div`
   flex-basis: 10px;
 `
 
-function UrlCopyView({ url, copyFn }) {
-  return <UrlCopyIcon onClick={copyFn} />
+function UrlCopyView({ onClick, dataFor, onMouseLeave }) {
+  return <UrlCopyIcon 
+    onClick={onClick}
+    data-for={dataFor}
+    data-tip
+    onMouseLeave={onMouseLeave}
+  />
 }
 
 class ImageUrlView extends PureComponent {
@@ -94,9 +101,15 @@ class ImageUrlView extends PureComponent {
     let { url, filename, timestamp } = this.props
     let markdown = `![](${url})`
     let html = `<img src="${url}" alt="" title="" />`
+    let dataFor = 'tip' + timestamp
 
     return <Div style={{borderRadius: '4px'}}>
       <Div>
+        <ReactTooltip 
+          id={dataFor} 
+          aria-haspopup='true'
+          getContent={() => this.state.copyed?  'Has been copied to the clipboard':'Copy'}
+        />
         <ArrowDropDown 
           onClick={this.clickHandler}
           className={this.state.isExpended? 'expended' : null}
@@ -104,10 +117,13 @@ class ImageUrlView extends PureComponent {
         <H3 onClick={this.clickHandler}>{filename}</H3>
         <Url id={"url" + timestamp} src={url} value={url} readOnly />
         <FillDiv></FillDiv>
-        <UrlCopyView copyFn={() => {
-          document.querySelector("#url" + timestamp).select()
-          document.execCommand('copy')  
-        }} url={url} />
+        <UrlCopyView onClick={() => {
+            document.querySelector("#url" + timestamp).select()
+            document.execCommand('copy')
+          }} url={url}
+          dataFor={dataFor}
+        />
+
       </Div>
       <List style={{ display: this.state.isExpended? undefined : 'none' }}>
         <Item key={"markdown" + timestamp}>
@@ -115,20 +131,24 @@ class ImageUrlView extends PureComponent {
           <H3>Markdown</H3>
           <Url id={"markdown" + timestamp} value={markdown} readOnly />
           <FillDiv></FillDiv>
-          <UrlCopyView copyFn={() => {
-            document.querySelector("#markdown" + timestamp).select()
-            document.execCommand('copy')
-          }} url={markdown}/>
+          <UrlCopyView onClick={() => {
+              document.querySelector("#markdown" + timestamp).select()
+              document.execCommand('copy')
+            }} 
+            dataFor={dataFor}
+          />
         </Item>
         <Item key={"html" + timestamp}>
           <ArrowDropDown style={{ visibility: 'hidden' }}/>
           <H3>HTML</H3>
           <Url id={"html" + timestamp} value={html} readOnly />
           <FillDiv></FillDiv>
-          <UrlCopyView copyFn={() => {
-            document.querySelector("#html" + timestamp).select()
-          document.execCommand('copy')
-          }} url={html} />
+          <UrlCopyView onClick={() => {
+              document.querySelector("#html" + timestamp).select()
+              document.execCommand('copy')
+            }} 
+            dataFor={dataFor}
+          />
         </Item>
       </List>
     </Div>

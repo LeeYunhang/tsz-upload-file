@@ -5,6 +5,7 @@ import _CopyIcon from 'react-icons/lib/md/content-copy'
 import _SyncIcon from 'react-icons/lib/md/sync'
 import { WithContext as Tags } from 'react-tag-input'
 import { observer } from 'mobx-react'
+import ReactTooltip from 'react-tooltip'
 
 import state from '../../stores'
 import { PRIMARY } from '../../utils'
@@ -105,7 +106,9 @@ function UrlItem({ urlType, content, timestamp }) {
         onClick={() => {
           document.getElementById(id).select()
           document.execCommand('copy')
-        }} 
+        }}
+        data-tip
+        data-for={"tip" + timestamp}
       />
   </UrlItemWrapper>
 }
@@ -115,6 +118,9 @@ function UrlList({ url, timestamp, onCopy }) {
   let html = `<img src="${url}" alt="" title="" />`
 
   return <UrlListWrapper>
+    <ReactTooltip id={"tip" + timestamp}>
+      Copy
+    </ReactTooltip>
     <UrlItem urlType="URL" content={url} timestamp={timestamp} />
     <UrlItem urlType="Markdown" content={markdown} timestamp={timestamp} />
     <UrlItem urlType="HTML" content={html} timestamp={timestamp} />
@@ -159,7 +165,6 @@ export default observer(class CoverComponent extends Component {
 
   syncPhoto = async () => {
     await state.syncFileAction(this.props.data)
-
     this.setState({ isSync: true })
   }
 
@@ -172,11 +177,25 @@ export default observer(class CoverComponent extends Component {
     photoname = clearSuffix(photoname)
     tags = tags.map((tag, key) => ({ key, 'text': tag }))
     return <Div>
+      <ReactTooltip id={"tip-sync" + timestamp}>
+        Sync
+      </ReactTooltip>
+      <ReactTooltip id={"tip-delete" + timestamp}>
+        Delete
+      </ReactTooltip>
       <PhotoNameWrapper>
         <PhotoName target="_blank" rel="noopener" href={url}>{photoname}</PhotoName>
       </PhotoNameWrapper>
-      {!this.state.isSync && !isSync && !state.dataSourceIsPublic.get() && <SyncIcon syncing={syncing} onClick={this.syncPhoto} />}
-      {!state.dataSourceIsPublic.get() && <CloseIcon  onClick={this.deletePhotoHandler} />}
+      {!this.state.isSync && !isSync && !state.dataSourceIsPublic.get() && <SyncIcon       syncing={syncing} 
+        onClick={this.syncPhoto} 
+        data-for={"tip-sync" + timestamp}
+        data-tip
+      />}
+      {!state.dataSourceIsPublic.get() && <CloseIcon  
+        onClick={this.deletePhotoHandler}
+        data-for={"tip-delete" + timestamp}
+        data-tip
+      />}
       <Tags
         placeholder="add tag for this photo"
         suggestions={suggestions}

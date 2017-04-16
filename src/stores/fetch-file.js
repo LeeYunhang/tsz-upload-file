@@ -19,7 +19,7 @@ export async function fetchFilesByCount(start, count) {
 export async function fetchFilesByTags(tags, start, count) {
   const query = tags.map((tag, index) => `tag${index}=${tag}`).join('&')
   const fetchUrl = `${FETCH_FILES_URL}/tags/${start}/${count}?${query}`
-
+  
   const response = await fetch(fetchUrl, {
     method: 'GET',
     credentials: 'include'

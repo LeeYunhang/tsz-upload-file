@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import _UploadIcon from 'react-icons/lib/md/file-upload'
 import { observer } from 'mobx-react'
 import CloseIcon from 'react-icons/lib/md/close'
+import ReactTooltip from 'react-tooltip'
+
 
 import { PRIMARY } from '../../utils'
 import state from '../../stores'
@@ -143,6 +145,12 @@ const Home = observer(class Home extends Component {
         <H1>Image Upload</H1>
       </Div>
       <Div>
+        <ReactTooltip 
+          id="uploadFileTooltip" 
+          aria-haspopup="true"
+        >
+          Click to upload
+        </ReactTooltip>
         <UploadImageArea
           onClick={this.clicHandler} 
           onDragEnter={this.dragEnterHandler}
@@ -150,6 +158,8 @@ const Home = observer(class Home extends Component {
           onDragOver={this.dragOverHandler}
           onDrop={this.dropHandler}
           ref={uploadImage => this.uploadImage = uploadImage}
+          data-for="uploadFileTooltip"
+          data-tip
           >
           <UploadIcon />
           <P>Drag and drop here</P>
